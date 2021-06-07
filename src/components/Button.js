@@ -18,7 +18,7 @@ export default function Button(props) {
       onClick={props.onClick}
       disabled={props.disabled}
     >
-      {props.children} testestetsffwfwewf
+      {props.children}
     </button>
   );
 }
