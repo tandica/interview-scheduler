@@ -15,7 +15,8 @@ import Header from "components/Appointment/Header";
 import Empty from "components/Appointment/Empty";
 import Show from "components/Appointment/Show";
 import Confirm from "components/Appointment/Confirm";
-import Status from "components/Appointment/Status";
+import Deleting from "components/Appointment/Deleting";
+import Saving from "components/Appointment/Saving";
 import Error from "components/Appointment/Error";
 
 storiesOf("Button", module)
@@ -145,7 +146,7 @@ storiesOf("Appointment", module)
   .add("Show", () => (
     <Show
       student="Lydia Miller-Jones"
-      interviewer={interviewers}
+      interviewer={interviewers[0]}
       onEdit={action("onEdit")}
       onDelete={action("onDelete")}
     />
@@ -157,7 +158,8 @@ storiesOf("Appointment", module)
       onCancel={action("onCancel")}
     />
   ))
-  .add("Status", () => <Status message="Deleting" />)
+  .add("Deleting", () => <Deleting message="Deleting" />)
+  .add("Saving", () => <Saving message="Saving" />)
   .add("Error", () => (
     <Error message="Cannot delete appointment." onClose={action("onClose")} />
   ));
