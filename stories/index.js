@@ -131,7 +131,7 @@ storiesOf("InterviewerList", module)
   .add("Preselected", () => (
     <InterviewerList
       interviewers={interviewers}
-      interviewer={3}
+      value={3}
       setInterviewer={action("setInterviewer")}
     />
   ));
@@ -168,7 +168,7 @@ storiesOf("Appointment", module)
     <Form
       name="Tandica"
       interviewers={interviewers}
-      interviewer={interviewers.id}
+      interviewer={3}
       onSave={action("onSave")}
       onCancel={action("onCancel")}
     />
