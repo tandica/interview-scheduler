@@ -2,6 +2,7 @@ export function getAppointmentsForDay(state, day) {
   const filteredDays = state.days.find((item) => item.name === day);
   console.log("filtereddays", filteredDays);
   console.log("day", day);
+  console.log("state.appt", state.appointments)
   if (filteredDays) {
     const appointments = filteredDays.appointments.map(
       (appointment) => state.appointments[appointment]
