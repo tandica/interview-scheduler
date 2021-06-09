@@ -13,3 +13,7 @@ export function getAppointmentsForDay(state, day) {
     return [];
   }
 }
+
+// export function getInterviewSchedule(state, interview) {
+//   return interview ? {student: interview.student, interviewer: {...state.interviewers[interview.interviewer]}} : null;
+// }
