@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect } from "react";
 //import { useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment";
@@ -56,17 +56,15 @@ const appointments = [
   },
 ];
 
-
 export default function Application(props) {
   const [days, setDays] = useState([]);
   const [day, setDay] = useState([]);
 
   useEffect(() => {
-    axios.get("/api/days")
-    .then(response => {
-      setDays(response.data)
-    })
-  }, [])
+    axios.get("/api/days").then((response) => {
+      setDays(response.data);
+    });
+  }, []);
 
   return (
     <main className="layout">
@@ -78,8 +76,7 @@ export default function Application(props) {
         />
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
-          <DayList days={days} day={day} setDay={setDay} setDays={setDays}/>
-          console.log(days)
+          <DayList days={days} day={day} setDay={setDay} setDays={setDays} />
         </nav>
         <img
           className="sidebar__lhl sidebar--centered"
