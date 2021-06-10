@@ -7,12 +7,14 @@ import Form from "./Form";
 import useVisualMode from "../../hooks/useVisualMode";
 import { bookInterview } from "../Application";
 import Saving from "./Saving";
+import Deleting from "./Deleting";
 
 export default function Appointment(props) {
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
-  const SAVING = "SAVING"
+  const SAVING = "SAVING";
+  const DELETING = "DELETING";
 
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
@@ -41,9 +43,8 @@ export default function Appointment(props) {
       {mode === CREATE && (
         <Form interviewers={props.interviewers} onCancel={back} onSave={save} />
       )}
-      {mode === SAVING && (
-        <Saving message={SAVING} />
-      )}
+      {mode === SAVING && <Saving message={SAVING} />}
+      {mode === DELETING && <Deleting message={DELETING} />}
     </article>
   );
 }
