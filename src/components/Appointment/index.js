@@ -21,7 +21,7 @@ export default function Appointment(props) {
 
       {mode === EMPTY && (
         <Empty
-          onAdd={(() => transition(CREATE), console.log("Clicked onAdd"))}
+          onAdd={() => transition(CREATE)}
         />
       )}
       {mode === SHOW && (
@@ -31,7 +31,7 @@ export default function Appointment(props) {
         />
       )}
       {mode === CREATE && (
-        <Form interviews={props.interviewers} onCancel={back} />
+        <Form interview={props.interviewers} onCancel={back} />
       )}
     </article>
   );
