@@ -3,25 +3,45 @@ import axios from "axios";
 import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment";
-import { getAppointmentsForDay, getInterviewSchedule, getInterviewersForDay } from "helpers/selectors";
-
+import {
+  getAppointmentsForDay,
+  getInterviewSchedule,
+  getInterviewersForDay,
+} from "helpers/selectors";
 
 export default function Application(props) {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
     appointments: {},
-    interviewers: {}
+    interviewers: {},
   });
-  
+  console.log('application state', state)
   const dailyAppointments = getAppointmentsForDay(state, state.day);
   const dailyInterviewers = getInterviewersForDay(state, state.day);
   //console.log("appt days", dailyAppointments);
 
   const schedule = dailyAppointments.map((appointment) => {
     const interview = getInterviewSchedule(state, appointment.interview);
-    console.log('state interview', state.interviewers)
-  
+    console.log('state interview', interview)
+
+    function bookInterview(id, interview) {
+      console.log("bookInterview caled", id, interview)
+      const appointment = {
+        ...state.appointments[id],
+        interview: { ...interview },
+      };
+
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment,
+      };
+
+      return axios
+        .put(`/api/appointments/${id}`, { interview })
+        .then((val1, val2) => {console.log(val1, val2); setState({ ...state, appointments })});
+    }
+
     return (
       <Appointment
         key={appointment.id}
@@ -29,6 +49,7 @@ export default function Application(props) {
         time={appointment.time}
         interview={interview}
         interviewers={dailyInterviewers}
+        bookInterview={bookInterview}
       />
     );
   });
@@ -51,7 +72,7 @@ export default function Application(props) {
     });
   }, []);
 
-  console.log('state.int', state.interviewers)
+  console.log("state.int", state.interviewers);
 
   return (
     <main className="layout">
@@ -63,11 +84,7 @@ export default function Application(props) {
         />
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
-          <DayList
-            days={state.days}
-            day={state.day}
-            setDay={setDay}
-          />
+          <DayList days={state.days} day={state.day} setDay={setDay} />
         </nav>
         <img
           className="sidebar__lhl sidebar--centered"

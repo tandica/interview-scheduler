@@ -29,10 +29,10 @@ export function getInterviewSchedule(state, interview) {
 export function getInterviewersForDay(state, day) {
   const filteredDays = state.days.find((item) => item.name === day);
   if (filteredDays) {
-    const appointments = filteredDays.appointments.map(
-      (appointment) => state.appointments[appointment]
+    const interviewers = filteredDays.interviewers.map(
+      (id) => state.interviewers[id]
     );
-    return appointments;
+    return interviewers;
   } else {
     return [];
   }
