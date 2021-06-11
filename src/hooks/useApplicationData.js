@@ -11,6 +11,12 @@ export default function useApplicationData() {
   });
 
   const setDay = (day) => setState({ ...state, day });
+
+  function updateSpots() {
+    //access value of spots - inside day obj
+    //calculate spots: total spots - spots taken. spots that are not booked are null.
+    //update spots when we book or cancel an interview
+  }
   
   //book interview
   function bookInterview(id, interview) {
@@ -25,8 +31,7 @@ export default function useApplicationData() {
     };
     return axios
       .put(`/api/appointments/${id}`, { interview })
-      .then((val1, val2) => {
-        console.log(val1, val2);
+      .then(() => {
         setState({ ...state, appointments });
       });
   }
@@ -43,8 +48,7 @@ export default function useApplicationData() {
     };
     return axios
       .delete(`/api/appointments/${id}`, appointment)
-      .then((val1, val2) => {
-        console.log(val1, val2);
+      .then(() => {
         setState({ ...state, appointments });
       });
   }

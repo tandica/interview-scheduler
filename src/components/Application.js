@@ -11,12 +11,6 @@ import {
 import useApplicationData from "hooks/useApplicationData";
 
 export default function Application(props) {
-  // const [state, setState] = useState({
-  //   day: "Monday",
-  //   days: [],
-  //   appointments: {},
-  //   interviewers: {},
-  // });
 
   const { state, setDay, bookInterview, cancelInterview } =
     useApplicationData();
