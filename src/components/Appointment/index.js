@@ -9,6 +9,7 @@ import { bookInterview } from "../Application";
 import Saving from "./Saving";
 import Deleting from "./Deleting";
 import Confirm from "./Confirm";
+import Error from "./Error";
 
 export default function Appointment(props) {
   const EMPTY = "EMPTY";
@@ -31,7 +32,7 @@ export default function Appointment(props) {
     props
       .bookInterview(props.id, interview)
       .then(() => transition(SHOW))
-      .catch((err) => transition(ERROR_SAVE));
+      .catch((error) => transition(ERROR_SAVE, true));
   }
 
   //delete an appt
@@ -40,13 +41,13 @@ export default function Appointment(props) {
     props
       .cancelInterview(props.id, interview)
       .then(() => transition(EMPTY))
-      .catch((err) => transition(ERROR_DELETE));
+      .catch((error) => transition(ERROR_DELETE, true));
   }
 
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
-
+//console.log('mode', mode)
   return (
     <article className="appointment">
       <Header time={props.time} />
@@ -55,8 +56,8 @@ export default function Appointment(props) {
       {mode === SHOW && (
         <Show
           student={props.interview.student}
-          interviewer={props.interview.interviewer.name}
-          onDelete={() => cancelInterview(props.interview)}
+          interviewer={props.interview.interviewer ? props.interview.interviewer.name : 'Edit to choose an interviewer'}
+          onDelete={() => transition(CONFIRM)}
           onEdit={() => transition(EDIT)}
         />
       )}
@@ -67,7 +68,7 @@ export default function Appointment(props) {
       {mode === DELETING && <Deleting message={DELETING} />}
       {mode === CONFIRM && (
         <Confirm
-          onConfirm={cancelInterview}
+          onConfirm={() => cancelInterview(props.interview)}
           onCancel={back}
           message={DELETING}
         />
@@ -81,6 +82,8 @@ export default function Appointment(props) {
           onSave={save}
         />
       )}
+      {mode === ERROR_SAVE && <Error message="Cannot save appointment" onClose={back} />}
+      {mode === ERROR_DELETE && <Error onClose={back} />}
     </article>
   );
 }
