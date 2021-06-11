@@ -12,10 +12,24 @@ export default function useApplicationData() {
 
   const setDay = (day) => setState({ ...state, day });
 
-  function updateSpots() {
+  function updateSpots(day, id, appointments) {
     //access value of spots - inside day obj
+    const day = id.find((name) => name.name === day);
+    
+    const getDay = id[day]
+    const appointmentForDay = getDay.appointments;
+    
     //calculate spots: total spots - spots taken. spots that are not booked are null.
-    //update spots when we book or cancel an interview
+    let spotsAmount = 0;
+    for (const item of appointmentForDay) {
+      let appointment = appointments[id]
+      !appointment.interview && spotsAmount++
+    }
+
+    
+    //update spots when we book or cancel an interview in those functions 
+
+
   }
   
   //book interview
