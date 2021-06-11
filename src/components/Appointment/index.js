@@ -29,13 +29,10 @@ export default function Appointment(props) {
   }
   
   //delete an appt
-  function cancel(name, interviewer) {
-    const interview = {
-      student: name,
-      interviewer,
-    };
+  function cancelInterview(interview) {
+
     transition(DELETING);
-    props.bookInterview(props.id, interview).then(() => transition(EMPTY));
+    props.cancelInterview(props.id, interview).then(() => transition(EMPTY));
   }
   
   const { mode, transition, back } = useVisualMode(
@@ -51,6 +48,7 @@ export default function Appointment(props) {
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer.name}
+          onDelete={() => cancelInterview(props.interview)}
         />
       )}
       {mode === CREATE && (
@@ -58,7 +56,7 @@ export default function Appointment(props) {
       )}
       {mode === SAVING && <Saving message={SAVING} />}
       {mode === DELETING && <Deleting message={DELETING} />}
-      {mode === CONFIRM && <Confirm onConfirm={cancel} onCancel={back} message={DELETING} />}
+      {mode === CONFIRM && <Confirm onConfirm={cancelInterview} onCancel={back} message={DELETING} />}
     </article>
   );
 }
