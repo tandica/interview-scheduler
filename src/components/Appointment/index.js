@@ -18,6 +18,8 @@ export default function Appointment(props) {
   const DELETING = "DELETING";
   const CONFIRM = "CONFIRM";
   const EDIT = "EDIT";
+  const ERROR_SAVE = "ERROR_SAVE";
+  const ERROR_DELETE = "ERROR_DELETE";
 
   //create an appt
   function save(name, interviewer) {
@@ -26,13 +28,19 @@ export default function Appointment(props) {
       interviewer,
     };
     transition(SAVING);
-    props.bookInterview(props.id, interview).then(() => transition(SHOW));
+    props
+      .bookInterview(props.id, interview)
+      .then(() => transition(SHOW))
+      .catch((err) => transition(ERROR_SAVE));
   }
 
   //delete an appt
   function cancelInterview(interview) {
     transition(DELETING);
-    props.cancelInterview(props.id, interview).then(() => transition(EMPTY));
+    props
+      .cancelInterview(props.id, interview)
+      .then(() => transition(EMPTY))
+      .catch((err) => transition(ERROR_DELETE));
   }
 
   const { mode, transition, back } = useVisualMode(
@@ -49,7 +57,7 @@ export default function Appointment(props) {
           student={props.interview.student}
           interviewer={props.interview.interviewer.name}
           onDelete={() => cancelInterview(props.interview)}
-          onEdit={() => transition(EDIT) }
+          onEdit={() => transition(EDIT)}
         />
       )}
       {mode === CREATE && (
