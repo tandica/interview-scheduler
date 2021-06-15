@@ -12,6 +12,7 @@ import {
   queryByText,
 } from "@testing-library/react";
 import Application from "components/Application";
+import axios from "axios";
 
 afterEach(cleanup);
 
@@ -112,5 +113,13 @@ describe("Application", () => {
     expect(getByText(updatedDay, "1 spot remaining")).toBeInTheDocument();
 
     //console.log(prettyDOM(updatedDay))
+  });
+
+  it("shows the save error when failing to save an appointment", () => {
+    axios.put.mockRejectedValueOnce();
+  });
+
+  it("shows the delete error when failing to delete an existing appointment", () => {
+    axios.delete.mockRejectedValueOnce();
   });
 });
