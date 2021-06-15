@@ -30,7 +30,7 @@ export default function useApplicationData() {
       !appointment.interview && spotsAmount++;
     }
 
-    let updatedSpots = { ...getDay, spotsAmount };
+    let updatedSpots = { ...getDay, spots: spotsAmount };
     let updatedDays = [...allDays];
     updatedDays[currentDayFind] = updatedSpots;
     return updatedDays;
@@ -47,9 +47,11 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment,
     };
+    console.log(appointments)
     return axios.put(`/api/appointments/${id}`, { interview }).then(() => {
       
       let newSpots = updateSpots(state.day, state.days, appointments);
+      console.log(newSpots)
       setState({ ...state, appointments, days: newSpots });
     });
   }
