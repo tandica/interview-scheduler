@@ -16,9 +16,9 @@ export default function useApplicationData() {
 
     const getDay = allDays[currentDayFind];
 
-    console.log('getday', getDay)
-    console.log('current day', currentDay)
-    console.log('allday', allDays)
+    //console.log('getday', getDay)
+    //console.log('current day', currentDay)
+    //console.log('allday', allDays)
     const appointmentForDay = getDay.appointments;
 
     let spotsAmount = 0;
@@ -35,7 +35,7 @@ export default function useApplicationData() {
 
   //book interview
   function bookInterview(id, interview) {
-    console.log("bookInterview caled", id, interview);
+    //console.log("bookInterview caled", id, interview);
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview },
