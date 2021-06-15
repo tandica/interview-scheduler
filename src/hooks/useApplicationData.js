@@ -12,9 +12,6 @@ export default function useApplicationData() {
   const setDay = (day) => setState({ ...state, day });
 
   function updateSpots(currentDay, allDays, appointments) {
-    //access value of spots - inside day obj
-    //calculate spots: total spots - spots taken. spots that are not booked are null.
-    //update spots when we book or cancel an interview in those functions
     const currentDayFind = allDays.findIndex((name) => name.name === currentDay);
 
     const getDay = allDays[currentDayFind];
@@ -47,11 +44,10 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment,
     };
-    console.log(appointments)
+
     return axios.put(`/api/appointments/${id}`, { interview }).then(() => {
       
       let newSpots = updateSpots(state.day, state.days, appointments);
-      console.log(newSpots)
       setState({ ...state, appointments, days: newSpots });
     });
   }
