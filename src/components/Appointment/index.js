@@ -50,7 +50,6 @@ export default function Appointment(props) {
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
-  //console.log('mode', mode)
   return (
     <article className="appointment" data-testid="appointment">
       <Header time={props.time} />
@@ -63,7 +62,6 @@ export default function Appointment(props) {
               ? props.interview.student
               : "Edit to insert your name"
           }
-          //student={props.interview.student}
           interviewer={
             props.interview.interviewer
               ? props.interview.interviewer.name

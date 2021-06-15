@@ -15,10 +15,6 @@ export default function useApplicationData() {
     const currentDayFind = allDays.findIndex((name) => name.name === currentDay);
 
     const getDay = allDays[currentDayFind];
-
-    //console.log('getday', getDay)
-    //console.log('current day', currentDay)
-    //console.log('allday', allDays)
     const appointmentForDay = getDay.appointments;
 
     let spotsAmount = 0;
@@ -35,7 +31,6 @@ export default function useApplicationData() {
 
   //book interview
   function bookInterview(id, interview) {
-    //console.log("bookInterview caled", id, interview);
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview },
@@ -46,7 +41,6 @@ export default function useApplicationData() {
     };
 
     return axios.put(`/api/appointments/${id}`, { interview }).then(() => {
-      
       let newSpots = updateSpots(state.day, state.days, appointments);
       setState({ ...state, appointments, days: newSpots });
     });
@@ -83,8 +77,5 @@ export default function useApplicationData() {
       }));
     });
   }, []);
-
-  //console.log("state.int", state.interviewers);
-
   return { state, setDay, bookInterview, cancelInterview };
 }
