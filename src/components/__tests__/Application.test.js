@@ -66,7 +66,7 @@ describe("Application", () => {
 
     fireEvent.click(getByAltText(appointment, "Delete"));
     // 4. Check that the confirmation message is shown.
-    expect(getByText(appointment, "DELETING")).toBeInTheDocument();
+    expect(getByText(appointment, "Are you sure you want to delete?")).toBeInTheDocument();
     // 5. Click the "Confirm" button on the confirmation.
     fireEvent.click(getByText(appointment, "Confirm"));
     // 6. Check that the element with the text "Deleting" is displayed.
