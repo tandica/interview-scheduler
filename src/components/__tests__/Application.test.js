@@ -115,11 +115,58 @@ describe("Application", () => {
     //console.log(prettyDOM(updatedDay))
   });
 
-  it("shows the save error when failing to save an appointment", () => {
+  it("shows the save error when failing to save an appointment", async () => {
     axios.put.mockRejectedValueOnce();
+    const { container } = render(<Application />);
+
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+
+    const appointments = getAllByTestId(container, "appointment");
+    const appointment = appointments[0];
+
+    fireEvent.click(getByAltText(appointment, "Add"));
+
+    fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
+      target: { value: "Lydia Miller-Jones" },
+    });
+
+    fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
+    fireEvent.click(getByText(appointment, "Save"));
+
+    expect(getByText(appointment, "SAVING")).toBeInTheDocument();
+    await waitForElement(() => queryByText(appointment, "Cannot save appointment"));
+
+    fireEvent.click(getByAltText(appointment, "Close"));
+
+    expect(getByAltText(appointment, "Add")).toBeInTheDocument();
+
+
   });
 
-  it("shows the delete error when failing to delete an existing appointment", () => {
+  it("shows the delete error when failing to delete an existing appointment", async () => {
     axios.delete.mockRejectedValueOnce();
+
+    const { container } = render(<Application />);
+
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+
+    const appointment = getAllByTestId(container, "appointment").find(
+      (appointment) => queryByText(appointment, "Archie Cohen")
+    );
+
+    fireEvent.click(getByAltText(appointment, "Delete"));
+
+    expect(getByText(appointment, "Are you sure you want to delete?")).toBeInTheDocument();
+ 
+    fireEvent.click(getByText(appointment, "Confirm"));
+
+    expect(getByText(appointment, "DELETING")).toBeInTheDocument();
+ 
+    await waitForElement(() => queryByText(appointment, "Cannot delete appointment"));
+
+    fireEvent.click(getByAltText(appointment, "Close"));
+    
+    expect(getByAltText(appointment, "Edit")).toBeInTheDocument();
+
   });
 });
