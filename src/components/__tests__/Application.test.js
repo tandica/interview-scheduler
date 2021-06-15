@@ -54,65 +54,57 @@ describe("Application", () => {
   });
 
   it("loads data, cancels an interview and updates the spots remaining for Monday by 1", async () => {
-    // 1. Render the Application.
     const { container } = render(<Application />);
 
-    // 2. Wait until the text "Archie Cohen" is displayed.
     await waitForElement(() => getByText(container, "Archie Cohen"));
 
-    // 3. Click the "Delete" button on the booked appointment.
     const appointment = getAllByTestId(container, "appointment").find(
       (appointment) => queryByText(appointment, "Archie Cohen")
     );
 
     fireEvent.click(getByAltText(appointment, "Delete"));
-    // 4. Check that the confirmation message is shown.
-    expect(getByText(appointment, "Are you sure you want to delete?")).toBeInTheDocument();
-    // 5. Click the "Confirm" button on the confirmation.
+
+    expect(
+      getByText(appointment, "Are you sure you want to delete?")
+    ).toBeInTheDocument();
+
     fireEvent.click(getByText(appointment, "Confirm"));
-    // 6. Check that the element with the text "Deleting" is displayed.
+
     expect(getByText(appointment, "DELETING")).toBeInTheDocument();
-    // 7. Wait until the element with the "Add" button is displayed.
+
     await waitForElement(() => getByAltText(appointment, "Add"));
-    // 8. Check that the DayListItem with the text "Monday" also has the text "2 spots remaining".
+
     const updatedDay = getAllByTestId(container, "day").find((updatedDay) =>
       queryByText(updatedDay, "Monday")
     );
     expect(getByText(updatedDay, "2 spots remaining")).toBeInTheDocument();
-
-    //console.log(prettyDOM(updatedDay))
   });
 
   it("loads data, edits an interview and keeps the spots remaining for Monday the same", async () => {
-    // 1. Render the Application.
     const { container } = render(<Application />);
 
-    // 2. Wait until the text "Archie Cohen" is displayed.
     await waitForElement(() => getByText(container, "Archie Cohen"));
 
-    // 3. Click the "edit" button on the booked appointment.
     const appointment = getAllByTestId(container, "appointment").find(
       (appointment) => queryByText(appointment, "Archie Cohen")
     );
 
     fireEvent.click(getByAltText(appointment, "Edit"));
-    // 4. Check that the editing form is shown.
+
     fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
       target: { value: "Lydia Miller-Jones" },
     });
-    // 5. Click the "Save" button.
+
     fireEvent.click(getByText(appointment, "Save"));
-    // 6. Check that the element with the text "Saving" is displayed.
+
     expect(getByText(appointment, "SAVING")).toBeInTheDocument();
-    // 7. Wait until the element with new appt is saved
+
     await waitForElement(() => getByText(appointment, "Lydia Miller-Jones"));
-    // 8. Check that the DayListItem with the text "Monday" also has the same spots remaining".
+
     const updatedDay = getAllByTestId(container, "day").find((updatedDay) =>
       queryByText(updatedDay, "Monday")
     );
     expect(getByText(updatedDay, "1 spot remaining")).toBeInTheDocument();
-
-    //console.log(prettyDOM(updatedDay))
   });
 
   it("shows the save error when failing to save an appointment", async () => {
@@ -134,13 +126,13 @@ describe("Application", () => {
     fireEvent.click(getByText(appointment, "Save"));
 
     expect(getByText(appointment, "SAVING")).toBeInTheDocument();
-    await waitForElement(() => queryByText(appointment, "Cannot save appointment"));
+    await waitForElement(() =>
+      queryByText(appointment, "Cannot save appointment")
+    );
 
     fireEvent.click(getByAltText(appointment, "Close"));
 
     expect(getByAltText(appointment, "Add")).toBeInTheDocument();
-
-
   });
 
   it("shows the delete error when failing to delete an existing appointment", async () => {
@@ -156,17 +148,20 @@ describe("Application", () => {
 
     fireEvent.click(getByAltText(appointment, "Delete"));
 
-    expect(getByText(appointment, "Are you sure you want to delete?")).toBeInTheDocument();
- 
+    expect(
+      getByText(appointment, "Are you sure you want to delete?")
+    ).toBeInTheDocument();
+
     fireEvent.click(getByText(appointment, "Confirm"));
 
     expect(getByText(appointment, "DELETING")).toBeInTheDocument();
- 
-    await waitForElement(() => queryByText(appointment, "Cannot delete appointment"));
+
+    await waitForElement(() =>
+      queryByText(appointment, "Cannot delete appointment")
+    );
 
     fireEvent.click(getByAltText(appointment, "Close"));
-    
-    expect(getByAltText(appointment, "Edit")).toBeInTheDocument();
 
+    expect(getByAltText(appointment, "Edit")).toBeInTheDocument();
   });
 });
