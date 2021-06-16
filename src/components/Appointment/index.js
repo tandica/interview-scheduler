@@ -50,6 +50,7 @@ export default function Appointment(props) {
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
+
   return (
     <article className="appointment" data-testid="appointment">
       <Header time={props.time} />
@@ -95,7 +96,9 @@ export default function Appointment(props) {
       {mode === ERROR_SAVE && (
         <Error message="Cannot save appointment" onClose={back} />
       )}
-      {mode === ERROR_DELETE && <Error message="Cannot delete appointment" onClose={back} />}
+      {mode === ERROR_DELETE && (
+        <Error message="Cannot delete appointment" onClose={back} />
+      )}
     </article>
   );
 }

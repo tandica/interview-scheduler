@@ -12,7 +12,9 @@ export default function useApplicationData() {
   const setDay = (day) => setState({ ...state, day });
 
   function updateSpots(currentDay, allDays, appointments) {
-    const currentDayFind = allDays.findIndex((name) => name.name === currentDay);
+    const currentDayFind = allDays.findIndex(
+      (name) => name.name === currentDay
+    );
 
     const getDay = allDays[currentDayFind];
     const appointmentForDay = getDay.appointments;
