@@ -1,4 +1,5 @@
 # Interview Scheduler
+A react-based app for students to book, cancel or edit their meetings with mentors. It uses React, Axios, Classnames, Normalize, Storybook, SASS and Jest.
 
 ## Setup
 
