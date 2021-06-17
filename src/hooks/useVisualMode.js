@@ -18,7 +18,6 @@ export default function useVisualMode(initialMode) {
     }
     history.pop();
     setMode(history[history.length - 1]);
-    console.log(setMode(history[history.length - 1]));
   };
 
   return { mode, transition, back };
