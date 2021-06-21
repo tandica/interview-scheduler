@@ -40,7 +40,7 @@ export default function Appointment(props) {
 
   //delete an appt
   function cancelInterview(interview) {
-    transition(DELETING);
+    transition(DELETING, true);
     props
       .cancelInterview(props.id, interview)
       .then(() => transition(EMPTY))
@@ -50,6 +50,10 @@ export default function Appointment(props) {
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
+
+  // function deleteInterview () {
+  //   transition(DELETING, true);
+  // }
 
   return (
     <article className="appointment" data-testid="appointment">
@@ -86,8 +90,8 @@ export default function Appointment(props) {
       )}
       {mode === EDIT && (
         <Form
-          student={props.interview.student}
-          interviewer={props.interview.interviewer} //took out .id from here 
+          name={props.interview.student}
+          interviewer={props.interview.interviewer.id} //took out .id from here 
           interviewers={props.interviewers}
           onCancel={back}
           onSave={save}
