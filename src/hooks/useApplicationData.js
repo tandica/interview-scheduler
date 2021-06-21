@@ -11,20 +11,25 @@ export default function useApplicationData() {
 
   const setDay = (day) => setState({ ...state, day });
 
+  //update the amount of spots that are available to book
   function updateSpots(currentDay, allDays, appointments) {
+    //get index of each day
     const currentDayFind = allDays.findIndex(
       (name) => name.name === currentDay
     );
-
+    
+    //set getDay to the index of allDays to get the appointments for each day
     const getDay = allDays[currentDayFind];
     const appointmentForDay = getDay.appointments;
 
+    //loop through each days appointment to get the spots left
     let spotsAmount = 0;
     for (let id of appointmentForDay) {
       let appointment = appointments[id];
       !appointment.interview && spotsAmount++;
     }
 
+    //update with the new values
     let updatedSpots = { ...getDay, spots: spotsAmount };
     let updatedDays = [...allDays];
     updatedDays[currentDayFind] = updatedSpots;
@@ -43,6 +48,7 @@ export default function useApplicationData() {
     };
 
     return axios.put(`/api/appointments/${id}`, { interview }).then(() => {
+      //call function with state variables
       let newSpots = updateSpots(state.day, state.days, appointments);
       setState({ ...state, appointments, days: newSpots });
     });
@@ -59,11 +65,13 @@ export default function useApplicationData() {
       [id]: appointment,
     };
     return axios.delete(`/api/appointments/${id}`, appointment).then(() => {
+      //call function with state variables
       let newSpots = updateSpots(state.day, state.days, appointments);
       setState({ ...state, appointments, days: newSpots });
     });
   }
 
+  //use useEffect to update the dom as one books, calncels and edits interviews
   useEffect(() => {
     Promise.all([
       axios.get("/api/days"),
