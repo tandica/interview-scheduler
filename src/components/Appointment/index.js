@@ -34,7 +34,6 @@ export default function Appointment(props) {
       .then(() => transition(SHOW))
       .catch((error) => {
         transition(ERROR_SAVE, true);
-        console.log("error", error);
       });
   }
 
@@ -50,10 +49,6 @@ export default function Appointment(props) {
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
-
-  // function deleteInterview () {
-  //   transition(DELETING, true);
-  // }
 
   return (
     <article className="appointment" data-testid="appointment">
@@ -91,7 +86,9 @@ export default function Appointment(props) {
       {mode === EDIT && (
         <Form
           name={props.interview.student}
-          interviewer={props.interview.interviewer.id} //took out .id from here 
+          interviewer={
+            props.interview.interviewer ? props.interview.interviewer.id : null
+          }
           interviewers={props.interviewers}
           onCancel={back}
           onSave={save}
